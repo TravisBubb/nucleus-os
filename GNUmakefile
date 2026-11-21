@@ -93,7 +93,7 @@ override CFLAGS += \
 
 # Internal C preprocessor flags that should not be changed by the user.
 override CPPFLAGS := \
-    -I src \
+    -I kernel \
     $(CPPFLAGS) \
     -MMD \
     -MP
@@ -101,7 +101,7 @@ override CPPFLAGS := \
 # Internal nasm flags that should not be changed by the user.
 override NASMFLAGS += \
     -f elf64 \
-    -i src/ \
+    -i kernel/ \
     -Wall
 
 # Internal linker flags that should not be changed by the user.
@@ -126,7 +126,7 @@ endif
 # Source discovery
 # ----------------------------------------------------------------------------
 
-override SRCFILES := $(shell find -L src -type f 2>/dev/null | LC_ALL=C sort)
+override SRCFILES := $(shell find -L kernel -type f 2>/dev/null | LC_ALL=C sort)
 override CFILES := $(filter %.c,$(SRCFILES))
 override ASFILES := $(filter %.S,$(SRCFILES))
 override NASMFILES := $(filter %.asm,$(SRCFILES))
