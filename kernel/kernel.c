@@ -10,6 +10,8 @@
 // The following will be our kernel's entry point. If renaming kmain() to
 // something else, make sure to change the linker script accordingly.
 void kmain(void) {
+
+  // TODO: Create a simple logging library w/ levels that I can toggle on and off
   serial_init();
   serial_write("Hello, World!\n");
   serial_write("This is Nucleus OS!\n");
@@ -24,6 +26,15 @@ void kmain(void) {
     || memmap_request.response->entry_count < 1 
     || memmap_request.response->entries == NULL) {
     hcf();
+  }
+
+  serial_write("memmap:\n");
+  struct limine_memmap_entry *entry;
+  for (size_t i = 0; i < memmap_request.response->entry_count; i++) {
+    entry = memmap_request.response->entries[i];
+    serial_printf("  [%zu] %p..%p type=%llu\n",
+                  i, (void *)entry->base,
+                  (void *)(entry->base + entry->length), entry->type);
   }
 
   // Ensure we got a framebuffer
