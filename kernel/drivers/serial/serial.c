@@ -1,6 +1,8 @@
 #include <stdint.h>
+#include <stdarg.h>
 #include <drivers/serial/serial.h>
 #include <arch/x86_64/io.h>
+#include <lib/format.h>
 
 #define COM1 0x3F8
 
@@ -47,4 +49,15 @@ void serial_write(const char *str) {
 
     serial_putc(*str++);
   }
+}
+
+void serial_printf(const char *fmt, ...) {
+  char buf[256];
+
+  va_list args;
+  va_start(args, fmt);
+  kvsnprintf(buf, sizeof(buf), fmt, args);
+  va_end(args);
+
+  serial_write(buf);
 }
