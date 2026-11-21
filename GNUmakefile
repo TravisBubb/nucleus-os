@@ -25,7 +25,7 @@ override LIMINE_URL  := https://github.com/limine-bootloader/limine/releases/lat
 # QEMU knobs. Override on the command line, e.g.
 #   make run QEMUFLAGS="-m 4G"            # no KVM
 #   make run OVMF=/path/to/OVMF.fd        # pick firmware for run-uefi
-QEMUFLAGS ?= -m 2G -enable-kvm -serial stdio
+QEMUFLAGS ?= -m 2G -enable-kvm -serial stdio -monitor none
 OVMF      ?= /usr/share/edk2/x64/OVMF.4m.fd
 
 # ----------------------------------------------------------------------------

@@ -5,12 +5,24 @@
 #include <boot/limine/requests.h>
 #include <arch/x86_64/cpu.h>
 #include <drivers/video/fb.h>
+#include <drivers/serial/serial.h>
 
 // The following will be our kernel's entry point. If renaming kmain() to
 // something else, make sure to change the linker script accordingly.
 void kmain(void) {
+  serial_init();
+  serial_write("Hello, World!\n");
+  serial_write("This is Nucleus OS!\n");
+
   // Ensure the bootloader actually understands our base revision
   if (LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision) == false) {
+    hcf();
+  }
+
+  // Ensure we got a memmap
+  if (memmap_request.response == NULL 
+    || memmap_request.response->entry_count < 1 
+    || memmap_request.response->entries == NULL) {
     hcf();
   }
 
